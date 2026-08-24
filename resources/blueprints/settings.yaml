@@ -1,0 +1,334 @@
+title: Vulpo Cookies
+tabs:
+  consent:
+    display: Consent
+    sections:
+    - display: Categories and services
+      instructions: A category groups the things it unlocks. Every service inside it gets its own toggle in the banner, so a visitor can allow analytics but refuse one particular tool. A category with a single service behaves like a plain category.
+      fields:
+      - handle: categories
+        field:
+          type: replicator
+          display: Categories
+          full_width_setting: true
+          collapse: true
+          previews: true
+          button_label: Add category
+          sets:
+            main:
+              display: Categories
+              sets:
+                category:
+                  display: Category
+                  icon: fieldtype-group
+                  fields:
+                  - handle: handle
+                    field:
+                      type: slug
+                      full_width_setting: true
+                      display: Handle
+                      from: name
+                      generate: true
+                      width: 50
+                      instructions: Used in the stored consent and in `{{ vulpo_cookies:granted }}`. Changing it after launch loses that consent.
+                      validate:
+                      - required
+                  - handle: name
+                    field:
+                      type: text
+                      full_width_setting: true
+                      display: Name
+                      width: 50
+                      instructions: Shown in the banner.
+                      validate:
+                      - required
+                  - handle: description
+                    field:
+                      type: textarea
+                      full_width_setting: true
+                      display: Description
+                      instructions: One or two sentences explaining what the visitor gets by allowing this.
+                      replicator_preview: false
+                  - handle: required
+                    field:
+                      type: toggle
+                      full_width_setting: true
+                      display: Always on
+                      default: false
+                      width: 50
+                      instructions: For cookies the site cannot work without. Renders as a locked toggle and its scripts always run.
+                      replicator_preview: false
+                  - handle: consent_mode
+                    field:
+                      type: select
+                      full_width_setting: true
+                      display: Google Consent Mode keys
+                      multiple: true
+                      clearable: true
+                      width: 50
+                      instructions: Which gtag storage keys this category unlocks. Only used when Google is enabled.
+                      options:
+                        analytics_storage: analytics_storage
+                        ad_storage: ad_storage
+                        ad_user_data: ad_user_data
+                        ad_personalization: ad_personalization
+                        functionality_storage: functionality_storage
+                        personalization_storage: personalization_storage
+                        security_storage: security_storage
+                      replicator_preview: false
+                  - handle: services
+                    field:
+                      type: replicator
+                      display: Services
+                      full_width_setting: true
+                      instructions: 'Each row is one individually toggleable thing: a tool, an embed, a script, a cookie you set yourself.'
+                      collapse: true
+                      previews: true
+                      button_label: Add service
+                      sets:
+                        main:
+                          display: Services
+                          sets:
+                            service:
+                              display: Service
+                              icon: fieldtype-toggle
+                              fields:
+                              - handle: handle
+                                field:
+                                  type: slug
+                                  full_width_setting: true
+                                  display: Handle
+                                  from: name
+                                  generate: true
+                                  width: 50
+                                  instructions: Unique across every category.
+                                  validate:
+                                  - required
+                              - handle: name
+                                field:
+                                  type: text
+                                  full_width_setting: true
+                                  display: Name
+                                  width: 50
+                                  validate:
+                                  - required
+                              - handle: aliases
+                                field:
+                                  type: text
+                                  full_width_setting: true
+                                  display: Previous handles
+                                  instructions: Comma separated. If you rename the handle, put the old one here and consent already given still counts.
+                                  replicator_preview: false
+                              - handle: preset
+                                field:
+                                  type: select
+                                  full_width_setting: true
+                                  display: Template
+                                  default: custom
+                                  width: 50
+                                  instructions: Pick a tool and the snippet, cookie names and duration are filled in for you. Choose Custom to paste your own.
+                                  options:
+                                    custom: Custom — paste your own snippet
+                                    google_analytics_4: Google Analytics 4
+                                    google_tag_manager: Google Tag Manager
+                                    google_ads: Google Ads
+                                    meta_pixel: Meta Pixel (Facebook)
+                                    microsoft_clarity: Microsoft Clarity
+                                    hotjar: Hotjar
+                                    linkedin_insight: LinkedIn Insight Tag
+                                    tiktok_pixel: TikTok Pixel
+                                    hubspot: HubSpot
+                                    plausible: Plausible Analytics
+                                    fathom: Fathom Analytics
+                                    cloudflare_analytics: Cloudflare Web Analytics
+                                    matomo: Matomo
+                                  replicator_preview: false
+                              - handle: preset_id
+                                field:
+                                  type: text
+                                  full_width_setting: true
+                                  display: Tool ID
+                                  width: 50
+                                  unless:
+                                    preset: equals custom
+                                  instructions: 'The ID the tool gave you: a `G-` measurement ID for Google Analytics, a pixel ID for Meta, your domain for Plausible. Nothing loads until this is filled in.'
+                                  replicator_preview: false
+                              - handle: preset_option
+                                field:
+                                  type: text
+                                  full_width_setting: true
+                                  display: 'Loaded from'
+                                  width: 50
+                                  if:
+                                    preset: 'contains_any hubspot, plausible, fathom, matomo'
+                                  instructions: "Only the templates that can load from somewhere else ask for this. Leave it empty for the vendor's own, except Matomo which has no default. HubSpot: the loader host — EU portals use `js-eu1.hs-scripts.com`, Asia-Pacific `js-ap1.hs-scripts.com`. Plausible and Fathom: your own script URL if you self-host or proxy it. Matomo: your Matomo server URL, e.g. `https://analytics.example.com/`."
+                                  replicator_preview: false
+                              - handle: description
+                                field:
+                                  type: textarea
+                                  full_width_setting: true
+                                  display: Description
+                                  instructions: What this one service does. Shown next to its toggle. Left empty, a template fills it in.
+                                  replicator_preview: false
+                              - handle: default_on
+                                field:
+                                  type: toggle
+                                  full_width_setting: true
+                                  display: Pre-ticked in the banner
+                                  default: false
+                                  width: 33
+                                  instructions: Only the tick. Nothing runs until the visitor saves.
+                                  replicator_preview: false
+                              - handle: position
+                                field:
+                                  type: select
+                                  full_width_setting: true
+                                  display: Inject into
+                                  default: body_end
+                                  width: 33
+                                  options:
+                                    head: Head
+                                    body_end: End of body
+                                  replicator_preview: false
+                              - handle: provider
+                                field:
+                                  type: text
+                                  full_width_setting: true
+                                  display: Provider
+                                  width: 33
+                                  instructions: Optional. Who receives the data, e.g. Google. Left empty, a template fills it in.
+                                  replicator_preview: false
+                              - handle: cookies
+                                field:
+                                  type: text
+                                  full_width_setting: true
+                                  display: Cookie names
+                                  width: 50
+                                  instructions: 'Optional shorthand for cookies that all last as long: comma separated, wildcards fine (`_ga, _ga_*`). Left empty, a template fills it in. The table below wins over this.'
+                                  replicator_preview: false
+                              - handle: duration
+                                field:
+                                  type: text
+                                  full_width_setting: true
+                                  display: Default duration
+                                  width: 50
+                                  instructions: How long the cookies above last, e.g. `2 years`. Also used for any row in the table below that leaves duration empty.
+                                  replicator_preview: false
+                              - handle: cookie_declaration
+                                field:
+                                  type: grid
+                                  full_width_setting: true
+                                  display: Cookies
+                                  mode: table
+                                  add_row: Add cookie
+                                  reorderable: true
+                                  instructions: For cookies with different lifetimes, list them one per row. This is what a privacy page shows, and what gets deleted again if the visitor withdraws.
+                                  fields:
+                                  - handle: name
+                                    field:
+                                      type: text
+                                      display: Name
+                                      instructions: End in `*` for a family, e.g. `_ga_*`.
+                                  - handle: purpose
+                                    field:
+                                      type: text
+                                      display: Purpose
+                                  - handle: duration
+                                    field:
+                                      type: text
+                                      display: Duration
+                                      instructions: Leave empty to use the default above.
+                                  replicator_preview: false
+                              - handle: script
+                                field:
+                                  type: code
+                                  full_width_setting: true
+                                  display: Script
+                                  mode: htmlmixed
+                                  mode_selectable: false
+                                  indent_type: spaces
+                                  indent_size: 2
+                                  instructions: The markup to run once this service is allowed. Paste the vendor snippet, tags included. Leave empty to use the template above; anything here overrides it. This is injected as-is, so only paste what you trust.
+                                  replicator_preview: false
+                      replicator_preview: false
+  banner:
+    display: Banner
+    sections:
+    - display: Wording
+      instructions: Used by the packaged banner. A project with its own view can ignore these.
+      fields:
+      - handle: banner_title
+        field:
+          type: text
+          display: Title
+          default: We use cookies
+          width: 50
+      - handle: privacy_url
+        field:
+          type: text
+          display: Privacy policy URL
+          width: 50
+          instructions: Optional. Linked from the banner.
+      - handle: banner_text
+        field:
+          type: textarea
+          display: Message
+          default: We use cookies to run this site and to understand how it is used. You choose what is allowed.
+    - display: Behaviour
+      fields:
+      - handle: revision
+        field:
+          type: integer
+          display: Revision
+          default: 1
+          width: 50
+          instructions: Raise this after adding or changing a service. Every stored decision becomes invalid and the banner asks again.
+      - handle: cookie_lifetime_days
+        field:
+          type: integer
+          display: Remember the choice for (days)
+          default: 180
+          width: 50
+          instructions: After this the banner asks again. Belgian guidance is six months at most.
+      - handle: respect_gpc
+        field:
+          type: toggle
+          display: Honour Global Privacy Control and Do Not Track
+          default: true
+          instructions: A browser sending either signal counts as having refused everything optional, and is not interrupted by the banner.
+  google:
+    display: Google
+    sections:
+    - display: Consent Mode v2
+      instructions: Loads gtag.js with everything denied and updates it from the visitor's choice. Which keys each category unlocks is set per category on the Consent tab.
+      fields:
+      - handle: enable_google
+        field:
+          type: toggle
+          display: Load Google tags through consent mode
+          default: false
+      - handle: google_tag_id
+        field:
+          type: text
+          display: Tag ID
+          width: 50
+          if:
+            enable_google: equals true
+          instructions: A `G-` measurement ID or a `GT-`/`AW-` tag ID.
+      - handle: url_passthrough
+        field:
+          type: toggle
+          display: Pass ad click information in the URL
+          default: false
+          width: 50
+          if:
+            enable_google: equals true
+          instructions: Keeps conversions attributable without advertising cookies.
+      - handle: ads_data_redaction
+        field:
+          type: toggle
+          display: Redact ads data while denied
+          default: true
+          if:
+            enable_google: equals true
+          instructions: Strips identifiers from Google Ads requests for as long as advertising storage is denied.

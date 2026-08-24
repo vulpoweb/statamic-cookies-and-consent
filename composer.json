@@ -1,0 +1,70 @@
+{
+    "name": "vulpo/cookies-and-consent",
+    "description": "Cookie consent for Statamic: unlimited categories, individually toggleable services, Google Consent Mode v2.",
+    "type": "statamic-addon",
+    "license": "MIT",
+    "keywords": [
+        "statamic",
+        "cookies",
+        "cookie-consent",
+        "gdpr",
+        "consent-mode",
+        "privacy"
+    ],
+    "homepage": "https://github.com/vulpoweb/statamic-cookies-and-consent",
+    "authors": [
+        {
+            "name": "Vulpo",
+            "email": "hello@vulpo.be",
+            "homepage": "https://vulpo.be"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/vulpoweb/statamic-cookies-and-consent/issues",
+        "source": "https://github.com/vulpoweb/statamic-cookies-and-consent"
+    },
+    "require": {
+        "php": "^8.3",
+        "statamic/cms": "^6.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.27",
+        "orchestra/testbench": "^10.8 || ^11.0",
+        "pestphp/pest": "^4.0 || ^5.0",
+        "pestphp/pest-plugin-laravel": "^4.0 || ^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vulpo\\Cookies\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vulpo\\Cookies\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "lint": "vendor/bin/pint"
+    },
+    "extra": {
+        "statamic": {
+            "name": "Cookies & Consent",
+            "description": "Cookie consent with unlimited categories and individually toggleable services."
+        },
+        "laravel": {
+            "providers": [
+                "Vulpo\\Cookies\\ServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
