@@ -1,4 +1,4 @@
-# Vulpo Cookies
+# Cookies & Consent
 
 Cookie consent for Statamic, where you decide what the categories are and the visitor decides one service at a time.
 
@@ -33,7 +33,7 @@ Most consent addons ship a fixed set of categories and one script box per catego
 ## Installation
 
 ```bash
-composer require vulpo/cookies
+composer require vulpo/cookies-and-consent
 ```
 
 To work against a local checkout, add a path repository first:
@@ -329,7 +329,7 @@ It registers no permission of its own — the item and the screen are both gated
 | Permission | Allows |
 |---|---|
 | `configure addons` | Everything, including these settings |
-| `edit vulpo/cookies settings` | Only this addon's settings |
+| `edit vulpo/cookies-and-consent settings` | Only this addon's settings |
 
 ## Blueprint
 
