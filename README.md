@@ -258,21 +258,6 @@ Two more attributes are optional: `data-vulpo-cookies-status` marks an `aria-liv
 
 Saving a choice reloads the page **only if something that already ran is being taken away** — a script cannot be un-run and an embed cannot be un-loaded. A first "Accept all", or widening an earlier choice, settles in place with no reload.
 
-## Migrating from alt-design/alt-cookies
-
-There is no automatic migration: the two data models do not line up, and the old one has no service concept at all. It is a five-minute job by hand.
-
-1. Open the old settings in `content/alt-cookies/settings.yaml`.
-2. Create a category per old field group — Necessary, Analytics, Advertising — and mark Necessary as always-on.
-3. Each old script blob becomes one service inside its category. Split it up if it contained more than one tool; that is the point of the upgrade.
-4. `enable_analytics_default` becomes the service's **Pre-ticked in the banner** toggle.
-5. `cookie_lifetime` becomes **Remember the choice for (days)**.
-6. `enable_google` and `google_tag_id` move to the Google tab. The old addon hardcoded which categories mapped to which gtag keys; now you set that per category.
-7. Replace `{{ AltCookies:Toast }}` with `{{ vulpo_cookies }}` and `{{ AltCookies:reset }}` with `{{ vulpo_cookies:open_preferences }}` — the old reset erased the decision and reloaded, this opens the panel with the current choice still in it.
-8. Remove `alt-design/alt-cookies` from `composer.json`, along with any `.alt-cookies-hidden` style shim.
-
-Old decisions are not carried over. Visitors are asked once more, which is the honest outcome of changing what they are being asked.
-
 ## Configuration
 
 ```bash
@@ -351,7 +336,7 @@ vendor/bin/pint
 
 ## Credits
 
-Built by [Vulpo](https://vulpo.be). Replaces `alt-design/alt-cookies`, which got us a long way first.
+Built by [Vulpo](https://vulpo.be).
 
 ## License
 

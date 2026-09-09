@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## v1.0.1
+
+- Docs: remove the alt-design/alt-cookies migration section and credit.
+
+## v1.0.0
 
 Initial release.
 
