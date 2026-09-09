@@ -41,7 +41,7 @@ class Consent
      */
     public function isOptedOut(): bool
     {
-        if (! Settings::bool('respect_gpc', (bool) config('cookies.respect_gpc', true))) {
+        if (! Settings::bool('respect_gpc', (bool) config('cookies-and-consent.respect_gpc', true))) {
             return false;
         }
 

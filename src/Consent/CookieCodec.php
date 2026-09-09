@@ -36,7 +36,7 @@ class CookieCodec
 
     public static function name(): string
     {
-        return (string) config('cookies.cookie.name', 'vulpo_cookies');
+        return (string) config('cookies-and-consent.cookie.name', 'vulpo_cookies');
     }
 
     public static function revision(): int
@@ -47,7 +47,7 @@ class CookieCodec
     public static function lifetimeDays(): int
     {
         $days = Settings::int('cookie_lifetime_days')
-            ?? (int) config('cookies.cookie.lifetime_days', 180);
+            ?? (int) config('cookies-and-consent.cookie.lifetime_days', 180);
 
         return max(1, $days);
     }

@@ -195,13 +195,13 @@ class CookieTags extends Tags
 
         return [
             'revision' => CookieCodec::revision(),
-            'respect_gpc' => Settings::bool('respect_gpc', (bool) config('cookies.respect_gpc', true)),
+            'respect_gpc' => Settings::bool('respect_gpc', (bool) config('cookies-and-consent.respect_gpc', true)),
             'saved_message' => __('Your choices have been saved.'),
             'cookie' => [
                 'name' => CookieCodec::name(),
                 'lifetime_days' => CookieCodec::lifetimeDays(),
-                'same_site' => (string) config('cookies.cookie.same_site', 'lax'),
-                'domain' => (string) config('cookies.cookie.domain', ''),
+                'same_site' => (string) config('cookies-and-consent.cookie.same_site', 'lax'),
+                'domain' => (string) config('cookies-and-consent.cookie.domain', ''),
             ],
             'consentMode' => [
                 'enabled' => $mode->isEnabled(),
@@ -214,7 +214,7 @@ class CookieTags extends Tags
 
     private function runtime(): string
     {
-        if (! config('cookies.runtime.inline', true)) {
+        if (! config('cookies-and-consent.runtime.inline', true)) {
             return '';
         }
 

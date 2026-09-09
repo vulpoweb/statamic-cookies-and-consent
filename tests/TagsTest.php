@@ -76,7 +76,7 @@ it('inlines the runtime', function () {
 });
 
 it('leaves the runtime out when it is switched off', function () {
-    config()->set('cookies.runtime.inline', false);
+    config()->set('cookies-and-consent.runtime.inline', false);
 
     expect(tag()->banner())->not->toContain('window.vulpoCookies = api');
 });
@@ -225,7 +225,7 @@ it('treats an embed with an unknown handle as not allowed', function () {
 });
 
 it('tells the runtime about aliases, the cookie domain and the saved message', function () {
-    config()->set('cookies.cookie.domain', '.example.com');
+    config()->set('cookies-and-consent.cookie.domain', '.example.com');
 
     $html = tag(['categories' => [
         ['handle' => 'analytics', 'name' => 'Analytics', 'services' => [

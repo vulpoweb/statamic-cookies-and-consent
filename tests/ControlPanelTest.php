@@ -8,15 +8,17 @@ it('exposes a settings screen built from the blueprint', function () {
 
     expect($addon)->not->toBeNull();
     expect($addon->hasSettingsBlueprint())->toBeTrue();
-    expect($addon->slug())->toBe('cookies');
+    expect($addon->slug())->toBe('cookies-and-consent');
 
-    // The config file and the settings file are named after the slug, not the
-    // package. A custom slug would break core's lookup of both.
-    expect(config('cookies.cookie.name'))->toBe('vulpo_cookies');
+    // The slug is left to derive from the package name. Core reads settings from
+    // resources/addons/{package}.yaml but writes them to resources/addons/{slug}.yaml,
+    // so a custom slug would break the round-trip. Core also keys the merged config
+    // by the slug, so the config file and its key follow the package name too.
+    expect(config('cookies-and-consent.cookie.name'))->toBe('vulpo_cookies');
 });
 
 it('keeps the settings screen behind authentication', function () {
-    $this->get(cp_route('addons.settings.edit', 'cookies'))->assertRedirect();
+    $this->get(cp_route('addons.settings.edit', 'cookies-and-consent'))->assertRedirect();
 });
 
 it('ships every translatable string in lang/en.json', function () {

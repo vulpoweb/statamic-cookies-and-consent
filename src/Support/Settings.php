@@ -8,7 +8,7 @@ use Statamic\Support\Arr;
 /**
  * Reads the addon's control panel settings.
  *
- * Statamic stores these in `resources/addons/cookies.yaml` from the settings
+ * Statamic stores these in `resources/addons/cookies-and-consent.yaml` from the settings
  * blueprint (`resources/blueprints/settings.yaml`), and hands them back in two
  * shapes:
  *
@@ -20,7 +20,7 @@ use Statamic\Support\Arr;
  */
 class Settings
 {
-    public const PACKAGE = 'vulpo/cookies';
+    public const PACKAGE = 'vulpo/cookies-and-consent';
 
     private static ?array $values = null;
 

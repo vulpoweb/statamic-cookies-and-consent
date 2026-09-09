@@ -49,7 +49,7 @@ class ConsentMode
     {
         $defaults = array_fill_keys(self::KEYS, 'denied');
 
-        $defaults['wait_for_update'] = (int) config('cookies.consent_mode.wait_for_update', 500);
+        $defaults['wait_for_update'] = (int) config('cookies-and-consent.consent_mode.wait_for_update', 500);
 
         return $defaults;
     }

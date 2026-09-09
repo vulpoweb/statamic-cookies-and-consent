@@ -133,7 +133,7 @@ it('lifts the cookie lifetime from the settings', function () {
 });
 
 it('falls back to the configured lifetime', function () {
-    config()->set('cookies.cookie.lifetime_days', 90);
+    config()->set('cookies-and-consent.cookie.lifetime_days', 90);
 
     expect(CookieCodec::lifetimeDays())->toBe(90);
 });
